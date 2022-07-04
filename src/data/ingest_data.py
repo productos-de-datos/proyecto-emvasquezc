@@ -13,10 +13,25 @@ def ingest_data():
     descarga debe realizarse usando únicamente funciones de Python.
 
     """
-    raise NotImplementedError("Implementar esta función")
+    # raise NotImplementedError("Implementar esta función")
+
+    # pip install PyGithub
+    import github
+    import requests
+    g = github.Github()
+    repo = g.get_repo('jdvelasq/datalabs')
+    contents = repo.get_contents('datasets/precio_bolsa_nacional/xls')
+
+    for contentFile in contents:
+        download_url = contentFile.download_url
+        nombre_archivo = download_url.rsplit('/', 1)[1]
+        with open('data_lake/landing/' + nombre_archivo, 'wb') as f:
+            f.write(requests.get(download_url).content)
+
 
 
 if __name__ == "__main__":
+    ingest_data()
     import doctest
 
     doctest.testmod()
