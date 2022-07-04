@@ -15,14 +15,14 @@ def clean_data():
     # raise NotImplementedError("Implementar esta función")
 
     import pandas as pd
-    import os
+    import glob
 
-    archivos = os.listdir('data_lake/raw')
+    archivos = glob.glob('data_lake/raw/*csv*')
 
     li = []
 
     for archivo in archivos:
-        df_temp = pd.read_csv('data_lake/raw/' + archivo, dtype={'Fecha': str})
+        df_temp = pd.read_csv(archivo, dtype={'Fecha': str})
         li.append(df_temp)
 
     df = pd.concat(li, axis=0, ignore_index=True)

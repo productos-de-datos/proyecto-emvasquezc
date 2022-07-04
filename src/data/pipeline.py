@@ -13,8 +13,9 @@ En luigi llame las funciones que ya creo.
 """
 
 import luigi
+from luigi import Task
 
-class luigi_ingest_data:
+class luigi_ingest_data(Task):
 
     def output(self):
         return luigi.LocalTarget('data_lake/landing/result.txt')
@@ -24,7 +25,7 @@ class luigi_ingest_data:
         with self.output().open('w') as files_ingested:
             ingest_data()
 
-class luigi_transform_data:
+class luigi_transform_data(Task):
 
     def requires(self):
         return luigi_ingest_data()
@@ -37,7 +38,7 @@ class luigi_transform_data:
         with self.output().open('w') as files_transformed:
             transform_data()
 
-class luigi_clean_data:
+class luigi_clean_data(Task):
 
     def requires(self):
         return luigi_transform_data()
@@ -50,7 +51,7 @@ class luigi_clean_data:
         with self.output().open('w') as f:
             clean_data()
 
-class luigi_compute_daily_prices:
+class luigi_compute_daily_prices(Task):
 
     def requires(self):
         return luigi_clean_data()
@@ -63,7 +64,7 @@ class luigi_compute_daily_prices:
         with self.output().open('w') as f:
             compute_daily_prices()
 
-class luigi_compute_monthly_prices:
+class luigi_compute_monthly_prices(Task):
 
     def requires(self):
         return luigi_compute_daily_prices()
@@ -78,8 +79,10 @@ class luigi_compute_monthly_prices:
 
 
 if __name__ == "__main__":
+    
+    luigi.run(["luigi_compute_monthly_prices", "--local-scheduler"])
 
-    raise NotImplementedError("Implementar esta función")
+    # raise NotImplementedError("Implementar esta función")
 
 if __name__ == "__main__":
     import doctest
