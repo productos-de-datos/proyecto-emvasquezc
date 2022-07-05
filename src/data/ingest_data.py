@@ -23,19 +23,33 @@ def ingest_data():
     """
     # raise NotImplementedError("Implementar esta función")
 
+    import wget
+    import os
+
+    for i in range(1995, 2022):
+        if i in range(2016, 2018):
+            wdir = "https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xls?raw=true".format(
+                i
+            )
+            wget.download(wdir, out="data_lake/landing")
+        else:
+            wdir = "https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xlsx?raw=true".format(
+                i
+            )
+            wget.download(wdir, out="data_lake/landing")
+
     # pip install PyGithub
-    import github
-    import requests
-    g = github.Github()
-    repo = g.get_repo('jdvelasq/datalabs')
-    contents = repo.get_contents('datasets/precio_bolsa_nacional/xls')
+    # import github
+    # import requests
+    # g = github.Github()
+    # repo = g.get_repo('jdvelasq/datalabs')
+    # contents = repo.get_contents('datasets/precio_bolsa_nacional/xls')
 
-    for contentFile in contents:
-        download_url = contentFile.download_url
-        nombre_archivo = download_url.rsplit('/', 1)[1]
-        with open('data_lake/landing/' + nombre_archivo, 'wb') as f:
-            f.write(requests.get(download_url).content)
-
+    # for contentFile in contents:
+    #     download_url = contentFile.download_url
+    #     nombre_archivo = download_url.rsplit('/', 1)[1]
+    #     with open('data_lake/landing/' + nombre_archivo, 'wb') as f:
+    #         f.write(requests.get(download_url).content)
 
 
 if __name__ == "__main__":

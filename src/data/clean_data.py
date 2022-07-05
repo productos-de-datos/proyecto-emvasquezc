@@ -51,10 +51,6 @@ if __name__ == "__main__":
 
     doctest.testmod()
 
-    def test_function():
-        clean_data()
-        import pandas as pd
-        df = pd.read_csv('data_lake/cleansed/precios-horarios.csv')        
-        assert str(df.columns) == "Index(['fecha', 'hora', 'precio'], dtype='object')"
+
 
 
