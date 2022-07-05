@@ -17,12 +17,12 @@ def train_daily_model():
     import numpy as np
     import pickle
 
-    df = pd.read_csv('data_lake/business/features/precios-diarios.csv')
-    
-    X = df['precios_dias_anteriores'].values
-    X = [i.strip('][').replace(',', '').split() for i in X]
+    df = pd.read_csv("data_lake/business/features/precios-diarios.csv")
 
-    lista = list()    
+    X = df["precios_dias_anteriores"].values
+    X = [i.strip("][").replace(",", "").split() for i in X]
+
+    lista = list()
     for i in X:
         lista2 = list()
         for j in i:
@@ -31,10 +31,9 @@ def train_daily_model():
 
     X = lista
 
+    y = df["precio_escalado"].values
 
-    y = df['precio_escalado'].values
-
-    len_train_data = round(len(df)*0.85)
+    len_train_data = round(len(df) * 0.85)
 
     np.random.seed(123456)
 
@@ -55,14 +54,13 @@ def train_daily_model():
     # Pronostico
     mlp.predict(X)
 
-    filename = 'src/models/precios-diarios.pkl'
+    filename = "src/models/precios_diarios.pkl"
 
-    pickle.dump(mlp, open(filename, 'wb'))
+    pickle.dump(mlp, open(filename, "wb"))
 
 
 if __name__ == "__main__":
     train_daily_model()
-
 
     import doctest
 

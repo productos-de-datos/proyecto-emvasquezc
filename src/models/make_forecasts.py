@@ -22,12 +22,12 @@ def make_forecasts():
     from sklearn.preprocessing import MinMaxScaler
 
     # Lectura features
-    df = pd.read_csv('data_lake/business/features/precios-diarios.csv')
-    
-    X = df['precios_dias_anteriores'].values
-    X = [i.strip('][').replace(',', '').split() for i in X]
+    df = pd.read_csv("data_lake/business/features/precios-diarios.csv")
 
-    lista = list()    
+    X = df["precios_dias_anteriores"].values
+    X = [i.strip("][").replace(",", "").split() for i in X]
+
+    lista = list()
     for i in X:
         lista2 = list()
         for j in i:
@@ -35,32 +35,37 @@ def make_forecasts():
         lista.append(lista2)
 
     X = lista
-    y = df['precio_escalado'].values
+    y = df["precio_escalado"].values
 
     # lectura modelo
-    loaded_model = pickle.load(open('src/models/precios-diarios.pkl', 'rb'))
+    loaded_model = pickle.load(open("src/models/precios_diarios.pkl", "rb"))
 
-    len_train_data = round(len(df)*0.85)
-    len_test_data = round(len(df)*0.15)
+    len_train_data = round(len(df) * 0.85)
+    len_test_data = round(len(df) * 0.15)
 
     P = 30
 
     y_scaled_m1 = loaded_model.predict(X[-len_test_data:])
 
-
     # Modelo para desnormalizar
-    db = pd.read_csv('data_lake/business/precios-diarios.csv')
+    db = pd.read_csv("data_lake/business/precios-diarios.csv")
     scaler = MinMaxScaler()
-    scaler.fit(np.array(db['precio']).reshape(-1, 1))
+    scaler.fit(np.array(db["precio"]).reshape(-1, 1))
 
     # Resultados desnormalizados
     y_m1 = scaler.inverse_transform([[u] for u in y_scaled_m1])
     y_m1 = [u[0] for u in y_m1]
 
-    respuesta = pd.DataFrame(zip(db['fecha'].iloc[-len_test_data:].values, db['precio'].iloc[-len_test_data:].values,
-    y_m1), columns=['fecha', 'precio_real', 'pronostico'])
+    respuesta = pd.DataFrame(
+        zip(
+            db["fecha"].iloc[-len_test_data:].values,
+            db["precio"].iloc[-len_test_data:].values,
+            y_m1,
+        ),
+        columns=["fecha", "precio_real", "pronostico"],
+    )
 
-    respuesta.to_csv('data_lake/business/forecasts/precios-diarios.csv', index=False)
+    respuesta.to_csv("data_lake/business/forecasts/precios-diarios.csv", index=False)
 
 
 if __name__ == "__main__":
