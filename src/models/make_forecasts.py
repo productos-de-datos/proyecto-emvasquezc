@@ -22,7 +22,7 @@ def make_forecasts():
     from sklearn.preprocessing import MinMaxScaler
 
     # Lectura features
-    df = pd.read_csv("data_lake/business/features/precios-diarios.csv")
+    df = pd.read_csv("data_lake/business/precios-diarios.csv")
 
     X = df["precios_dias_anteriores"].values
     X = [i.strip("][").replace(",", "").split() for i in X]
