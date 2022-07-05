@@ -17,7 +17,7 @@ def make_features():
     import pandas as pd
 
     df = pd.read_csv(
-        "data_lake/business/precios_diarios.csv",
+        "data_lake/business/precios-diarios.csv",
         parse_dates=["fecha"],
         index_col=["fecha"],
     )
@@ -54,7 +54,7 @@ def make_features():
         columns=["fecha", "precios_dias_anteriores", "precio_escalado"],
     )
 
-    features.to_csv("data_lake/business/features/precios-diarios.csv", index=False)
+    features.to_csv("data_lake/business/features/precios_diarios.csv", index=False)
 
 
 if __name__ == "__main__":
