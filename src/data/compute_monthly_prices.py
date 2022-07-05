@@ -1,21 +1,37 @@
 def compute_monthly_prices():
-    """Compute los precios promedios mensuales.
+    """
+    Esta función toma los precios por hora por día y los promedia
+    en un solo mes. Las columnas del DataFrame son:
+    fecha (YYYY-MM) y precio.
 
-    Usando el archivo data_lake/cleansed/precios-horarios.csv, compute el prcio
-    promedio mensual. Las
-    columnas del archivo data_lake/business/precios-mensuales.csv son:
+    El nuevo archivo se guarda en la ruta data_lake/business/precios-mensuales.csv.
+   
 
-    * fecha: fecha en formato YYYY-MM-DD
-
-    * precio: precio promedio mensual de la electricidad en la bolsa nacional
-
-
+    >>> import pandas as pd
+    >>> df = pd.read_csv('data_lake/business/precios-mensuales.csv', \
+    parse_dates=['fecha'], index_col=['fecha'])
+    >>> pd.infer_freq(df.index)
+    'MS'
 
     """
-    raise NotImplementedError("Implementar esta función")
+    # raise NotImplementedError("Implementar esta función")
+
+    import pandas as pd
+
+    df = pd.read_csv('data_lake/cleansed/precios-horarios.csv',
+    parse_dates=['fecha'])
+
+    df['fecha'] = df['fecha'].dt.to_period('M')
+
+    avg_month = df.groupby('fecha')['precio'].mean()
+
+    avg_month.to_csv('data_lake/business/precios-mensuales.csv')
 
 
 if __name__ == "__main__":
+    compute_monthly_prices()
+
+
     import doctest
 
     doctest.testmod()

@@ -1,0 +1,48 @@
+# ------------------------ BUILD --------------------------
+
+docker build -t elkmauriciovas/py_impactos:V1 -f ./Docker/Dockerfile .
+// -f especifica donde está el archivo Dockerfile y luego el punto (.)
+// indica que se corre en el directorio actual
+
+# ------------------------- RUN ----------------------------
+
+docker run --rm -it --name py_impactos -v ${PWD}/Python_Impactos_Alertas:/app_docker -p 5000:5000 elkmauriciovas/py_impactos:V1
+docker run --rm -it --name py_impactos -v ${PWD}:/app_docker -p 5000:5000 elkmauriciovas/py_impactos:V1
+
+# ------------------------ ENV ----------------------------
+. /opt/venv_impactos/bin/activate
+
+# ------------------- TUTORIAL DEBUG ------------------------
+https://www.youtube.com/watch?v=cJbvcH0JNGA&ab_channel=codeEV
+
+# ------------------- INTERPRETER --------------------------
+
+1. Install the Remote-Containers extension
+2. Build/start the Docker container
+3. Open the Command Palette and type Remote-Containers: Attach to Running Container..., then select the running Docker container
+4. VSCode will restart and reload
+5. On the Get Started page, click the Open... and enter the path to the Docker volume mounted to your source code. It must be set to the same path as WORKDIR in your Dockerfile-local, e.g. to /app.
+6. Install the Python extension on the container
+7. Open the Command Palette and type Python: Select Interpreter, then select the Docker interpreter
+8. Open the Command Palette and type Python: Configure Tests, then select the framework you use
+
+/opt/venv_impactos/bin/python
+
+# -------------------- WORKSPACE ---------------------------
+
+# ###### Cambiar en devcontainer.json
+// Opción para que workspace tenga el nombre de la carpeta correspondiente
+"workspaceMount": "source=${localWorkspaceFolder},target=/app_docker,type=bind",
+"workspaceFolder": "/app_docker"
+
+
+# ----------------------- Uso del paquete -------------------
+para instalar usar: pip install -e .
+De lo contrario no funcionará en debugger
+
+
+# ----------------------- Docker no inicia ------------------
+# En caso de que docker se quede con el mensaje:
+# "Docker starting" sin abrir correctamente
+wsl --unregister docker-desktop
+wsl --unregister docker-desktop-data
