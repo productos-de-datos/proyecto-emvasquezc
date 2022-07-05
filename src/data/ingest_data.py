@@ -23,7 +23,7 @@ def ingest_data():
     """
     # raise NotImplementedError("Implementar esta función")
 
-    import wget
+    import requests
     import os
 
     for i in range(1995, 2022):
@@ -31,12 +31,14 @@ def ingest_data():
             wdir = "https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xls?raw=true".format(
                 i
             )
-            wget.download(wdir, out="data_lake/landing")
+            with open("data_lake/landing/" + str(i) + ".xls", "wb") as f:
+                f.write(requests.get(wdir).content)
         else:
             wdir = "https://github.com/jdvelasq/datalabs/blob/master/datasets/precio_bolsa_nacional/xls/{}.xlsx?raw=true".format(
                 i
             )
-            wget.download(wdir, out="data_lake/landing")
+            with open("data_lake/landing/" + str(i) + ".xlsx", "wb") as f:
+                f.write(requests.get(wdir).content)
 
     # pip install PyGithub
     # import github
