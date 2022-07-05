@@ -22,7 +22,7 @@ def make_forecasts():
     from sklearn.preprocessing import MinMaxScaler
 
     # Lectura features
-    df = pd.read_csv("data_lake/business/features/precios_diarios.csv")
+    df = pd.read_csv("data_lake/business/features/precios-diarios.csv")
 
     X = df["precios_dias_anteriores"].values
     X = [i.strip("][").replace(",", "").split() for i in X]
@@ -48,7 +48,7 @@ def make_forecasts():
     y_scaled_m1 = loaded_model.predict(X[-len_test_data:])
 
     # Modelo para desnormalizar
-    db = pd.read_csv("data_lake/business/precios_diarios.csv")
+    db = pd.read_csv("data_lake/business/precios-diarios.csv")
     scaler = MinMaxScaler()
     scaler.fit(np.array(db["precio"]).reshape(-1, 1))
 

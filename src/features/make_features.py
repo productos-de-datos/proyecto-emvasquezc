@@ -54,7 +54,7 @@ def make_features():
         columns=["fecha", "precios_dias_anteriores", "precio_escalado"],
     )
 
-    features.to_csv("data_lake/business/features/precios_diarios.csv", index=False)
+    features.to_csv("data_lake/business/features/precios-diarios.csv", index=False)
 
 
 if __name__ == "__main__":

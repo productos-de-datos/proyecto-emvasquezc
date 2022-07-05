@@ -17,7 +17,7 @@ def train_daily_model():
     import numpy as np
     import pickle
 
-    df = pd.read_csv("data_lake/business/features/precios_diarios.csv")
+    df = pd.read_csv("data_lake/business/features/precios-diarios.csv")
 
     X = df["precios_dias_anteriores"].values
     X = [i.strip("][").replace(",", "").split() for i in X]
