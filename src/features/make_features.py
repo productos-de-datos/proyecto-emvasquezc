@@ -13,13 +13,15 @@ def make_features():
 
     """
     # raise NotImplementedError("Implementar esta función")
-    
+
     import pandas as pd
-    
-    df = pd.read_csv('data_lake/business/precios-diarios.csv', parse_dates=['fecha'],
-    index_col=['fecha'])
-    
-    
+
+    df = pd.read_csv(
+        "data_lake/business/precios_diarios.csv",
+        parse_dates=["fecha"],
+        index_col=["fecha"],
+    )
+
     #
     # Como primer paso se escala la serie al intervalo [0, 1]
     # ya que esto facilita el entrenamiento del modelo
@@ -27,19 +29,18 @@ def make_features():
     import numpy as np
     from sklearn.preprocessing import MinMaxScaler
 
-    len_train_data = round(len(df)*0.85)
+    len_train_data = round(len(df) * 0.85)
 
     # crea el transformador
     scaler = MinMaxScaler()
 
     # escala la serie
-    data_scaled = scaler.fit_transform(np.array(df['precio']).reshape(-1, 1))
+    data_scaled = scaler.fit_transform(np.array(df["precio"]).reshape(-1, 1))
 
     # z es un array de listas como efecto
     # del escalamiento
     data_scaled = [u[0] for u in data_scaled]
-    
-    
+
     P = 30
 
     X = []
@@ -48,11 +49,12 @@ def make_features():
 
     observed_scaled = data_scaled[P:]
 
-    features = pd.DataFrame(zip(df.iloc[P:].index, X, observed_scaled),
-    columns=['fecha', 'precios_dias_anteriores', 'precio_escalado'])
-    
-    features.to_csv('data_lake/business/features/precios-diarios.csv',
-    index=False)
+    features = pd.DataFrame(
+        zip(df.iloc[P:].index, X, observed_scaled),
+        columns=["fecha", "precios_dias_anteriores", "precio_escalado"],
+    )
+
+    features.to_csv("data_lake/business/features/precios-diarios.csv", index=False)
 
 
 if __name__ == "__main__":
