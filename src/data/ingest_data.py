@@ -6,11 +6,19 @@ Módulo de ingestión de datos.
 
 
 def ingest_data():
-    """Ingeste los datos externos a la capa landing del data lake.
+    """
+    Este modulo descarga todos los archivos del histórico de
+    los precios de la energía, que se encuentra en el repositorio
+    jdvelasq/datalabs/precio_bolsa_nacional/xls/.
 
-    Del repositorio jdvelasq/datalabs/precio_bolsa_nacional/xls/ descarge los
-    archivos de precios de bolsa nacional en formato xls a la capa landing. La
-    descarga debe realizarse usando únicamente funciones de Python.
+    Los archivos son guardados en la capa landing del data_lake.
+
+    >>> import os
+    >>> os.path.isfile("data_lake/landing/1995.xlsx")
+    True
+
+    >>> os.path.isfile("data_lake/landing/2021.xlsx")
+    True
 
     """
     # raise NotImplementedError("Implementar esta función")

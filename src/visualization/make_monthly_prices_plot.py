@@ -1,10 +1,12 @@
 def make_monthly_prices_plot():
-    """Crea un grafico de lines que representa los precios promedios mensuales.
+    """
+    Grafica una serie de tiempo con los precios mensuales de la energía.
+    El gráfico se guarda en formato .png en la siguiente ruta:
+    data_lake/business/reports/figures/monthly_prices.png.
 
-    Usando el archivo data_lake/business/precios-mensuales.csv, crea un grafico de
-    lines que representa los precios promedios mensuales.
-
-    El archivo se debe salvar en formato PNG en data_lake/business/reports/figures/monthly_prices.png.
+    >>> import os
+    >>> os.path.isfile('data_lake/business/reports/figures/monthly_prices.png')
+    True
 
     """
     # raise NotImplementedError("Implementar esta función")

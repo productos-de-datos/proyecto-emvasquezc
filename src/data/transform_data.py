@@ -1,10 +1,16 @@
 def transform_data():
-    """Transforme los archivos xls a csv.
+    """
+    Esta función convierte todos los archivos xlsx y xls a csv.
+    Los archivos tienen las columnas: fecha (YYYY-MM-DD), horas
+    (HH). Los archivos son guardados en la capa raw.
 
-    Transforme los archivos data_lake/landing/*.xls a data_lake/raw/*.csv. Hay
-    un archivo CSV por cada archivo XLS en la capa landing. Cada archivo CSV
-    tiene como columnas la fecha en formato YYYY-MM-DD y las horas H00, ...,
-    H23.
+    >>> transform_data()
+    >>> import os
+    >>> os.path.isfile("data_lake/raw/1995.csv")
+    True
+
+    >>> os.path.isfile("data_lake/raw/2021.csv")
+    True
 
     """
     # raise NotImplementedError("Implementar esta función")
@@ -16,7 +22,6 @@ def transform_data():
     dtype = {'Fecha': str}
     
     for archivo in archivos:
-        print(archivo)
         df = pd.read_excel(archivo, dtype=dtype)
         # Eliminar las filas que no tienen datos
         if df.columns[0] != 'Fecha':

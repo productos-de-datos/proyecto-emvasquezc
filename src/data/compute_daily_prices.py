@@ -1,15 +1,16 @@
 def compute_daily_prices():
-    """Compute los precios promedios diarios.
+    """
+    Esta función toma los precios por hora por día y los promedia
+    en un solo día. Las columnas del DataFrame son:
+    fecha (YYYY-MM-DD) y precio.
 
-    Usando el archivo data_lake/cleansed/precios-horarios.csv, compute el prcio
-    promedio diario (sobre las 24 horas del dia) para cada uno de los dias. Las
-    columnas del archivo data_lake/business/precios-diarios.csv son:
-
-    * fecha: fecha en formato YYYY-MM-DD
-
-    * precio: precio promedio diario de la electricidad en la bolsa nacional
-
-
+    El nuevo archivo se guarda en la ruta data_lake/business/precios-diarios.csv.
+   
+    >>> import pandas as pd
+    >>> df = pd.read_csv('data_lake/business/precios-diarios.csv', \
+    parse_dates=['fecha'], index_col=['fecha'])
+    >>> pd.infer_freq(df.index)
+    'D'
 
     """
     # raise NotImplementedError("Implementar esta función")

@@ -13,3 +13,5 @@ PyGithub==1.55
 pyxlsb==1.0.9
 ipykernel==6.15.0
 statsmodels==0.13.2
+pytest==7.1.2
+black==22.6.0

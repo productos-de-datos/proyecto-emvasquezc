@@ -4,14 +4,37 @@ def train_daily_model():
     Con las features entrene el modelo de proóstico de precios diarios y
     salvelo en models/precios-diarios.pkl
 
+    >>> import os
+    >>> os.path.isfile('src/models/precios-diarios.pkl')
+    True
+
 
     """
     # raise NotImplementedError("Implementar esta función")
-    
+
     from sklearn.neural_network import MLPRegressor
-    from features.make_features import make_features
+    import pandas as pd
+    import numpy as np
+    import pickle
+
+    df = pd.read_csv('data_lake/business/features/precios-diarios.csv')
     
-    X, observed_scaled = make_features()
+    X = df['precios_dias_anteriores'].values
+    X = [i.strip('][').replace(',', '').split() for i in X]
+
+    lista = list()    
+    for i in X:
+        lista2 = list()
+        for j in i:
+            lista2.append(float(j))
+        lista.append(lista2)
+
+    X = lista
+
+
+    y = df['precio_escalado'].values
+
+    len_train_data = round(len(df)*0.85)
 
     np.random.seed(123456)
 
@@ -27,13 +50,20 @@ def train_daily_model():
     )
 
     # Entrenamiento
-    mlp.fit(X[0:len_train_data], observed_scaled[0:len_train_data])  # 239 - 24 = 215
+    mlp.fit(X[0:len_train_data], y[0:len_train_data])
 
     # Pronostico
-    y_scaled_m1 = mlp.predict(X)
+    mlp.predict(X)
+
+    filename = 'src/models/precios-diarios.pkl'
+
+    pickle.dump(mlp, open(filename, 'wb'))
 
 
 if __name__ == "__main__":
+    train_daily_model()
+
+
     import doctest
 
     doctest.testmod()
